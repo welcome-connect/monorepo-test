@@ -2,9 +2,10 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { db } from '@welcome-connect/firebase'
 import { useEffect, useState } from 'react'
+import { Users } from '@welcome-connect/firebase/@types/Users'
 
 export default function Home() {
-	const [data, setData] = useState([])
+	const [data, setData] = useState<Users[] | null>(null)
 	useEffect(() => {
 		async function getData() {
 			const data = await db.users.get()
