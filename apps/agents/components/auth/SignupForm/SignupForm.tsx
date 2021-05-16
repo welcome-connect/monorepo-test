@@ -1,24 +1,25 @@
+import { useRouter } from 'next/dist/client/router'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
+import { UserSignupData } from '../../../@types/forms'
+import { useAuth } from '../../../hooks/useAuth'
 import { Button, FieldSet, Form, Input, Label } from '../../../styles/components'
 
-type UserSignupData = {
-	display_name: string
-	email: string
-	phone_number: number
-	password: string
-}
-
 export function SignupForm() {
+	const { signup, isLoading } = useAuth()
+	const router = useRouter()
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
 	} = useForm<UserSignupData>()
 
-	function onSubmit(formValues: UserSignupData) {
-		console.log(formValues)
+	async function onSubmit(formValues: UserSignupData) {
+		await signup(formValues)
+		router.push('/dispatch')
 	}
+
+	if (isLoading) return <p>Loading...</p>
 
 	return (
 		<Form onSubmit={handleSubmit(onSubmit)}>

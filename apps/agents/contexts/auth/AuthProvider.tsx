@@ -14,14 +14,8 @@ export const AuthContext = createContext<AuthContextValues>({
 export function AuthProvider({ children }: { children: ReactNode }) {
 	const [state, dispatch] = useReducer(authReducer, initialState)
 
-	const memoizedState = useMemo(() => {
-		return {
-			...state
-		}
-	}, [state])
-
 	return (
-		<AuthContext.Provider value={{ state: memoizedState, dispatch }}>
+		<AuthContext.Provider value={{ state, dispatch }}>
 			{children}
 		</AuthContext.Provider>
 	)

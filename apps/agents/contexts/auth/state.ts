@@ -1,6 +1,6 @@
 import { Team, User } from '@welcome-connect/firebase/@types'
 
-export enum Types {
+export enum AuthActionTypes {
 	FetchReq = 'FETCH_REQ',
 	FetchFail = 'FETCH_FAILED',
 	SignIn = 'SIGN_IN_SUCCESS',
@@ -12,7 +12,7 @@ export enum Types {
 export type AuthState = {
 	userAuth: firebase.default.User | null
 	userDoc: User | null
-	userTeam: Team | null
+	userTeam: Team | null | undefined
 	isLoggedIn: boolean
 	isLoading: boolean
 	error: string | null
@@ -30,22 +30,23 @@ export const initialState: AuthState = {
 export type AuthActions =
 	| { type: 'FETCH_REQ' }
 	| { type: 'FETCH_FAILED'; error: string }
+	| { type: 'SIGN_IN_SUCCESS' }
 	| { type: 'SIGNOUT_SUCCESS' }
 	| {
 			type: 'SET_USER_DOCS'
 			userDoc: User | null
 			userAuth: firebase.default.User | null
-			userTeam: Team | null
+			userTeam: Team | null | undefined
 	  }
 	| { type: 'IS_NOT_LOGGED_IN' }
 
 export const authReducer = (state: AuthState, action: AuthActions): AuthState => {
 	switch (action.type) {
-		case Types.FetchReq:
+		case AuthActionTypes.FetchReq:
 			return { ...state, isLoading: true }
-		case Types.FetchFail:
+		case AuthActionTypes.FetchFail:
 			return { ...state, isLoading: false, error: action.error }
-		case Types.SignOut:
+		case AuthActionTypes.SignOut:
 			return {
 				...state,
 				isLoading: false,
@@ -54,14 +55,14 @@ export const authReducer = (state: AuthState, action: AuthActions): AuthState =>
 				userDoc: null,
 				userTeam: null
 			}
-		case Types.SetUserDocs:
+		case AuthActionTypes.SetUserDocs:
 			return {
 				...state,
 				userDoc: action.userDoc,
 				userAuth: action.userAuth,
 				userTeam: action.userTeam
 			}
-		case Types.isNotLoggedIn:
+		case AuthActionTypes.isNotLoggedIn:
 			return {
 				...state,
 				userAuth: null,

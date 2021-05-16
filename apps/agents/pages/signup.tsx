@@ -1,8 +1,14 @@
+import { useRouter } from 'next/dist/client/router'
 import styled from 'styled-components'
 import { SignupForm } from '../components/auth/SignupForm'
+import { useAuth } from '../hooks/useAuth'
 import { Logo } from '../icons/Logo'
 
 export default function Signup() {
+	const { userAuth } = useAuth()
+	const router = useRouter()
+
+	if (userAuth) router.push('/dispatch')
 	return (
 		<PageLayout>
 			<LeftColumn>
