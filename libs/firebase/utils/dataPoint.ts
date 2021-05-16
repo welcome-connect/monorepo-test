@@ -1,6 +1,6 @@
 import firebase from 'firebase'
 import { QueryDocumentSnapshot } from '@firebase/firestore-types'
-import { config } from '../index'
+import { config } from '../config'
 
 const converter = <T>() => ({
 	toFirestore: (data: T) => data,
