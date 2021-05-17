@@ -1,0 +1,1 @@
+export { SideNavIcon } from './SideNavIcon'
