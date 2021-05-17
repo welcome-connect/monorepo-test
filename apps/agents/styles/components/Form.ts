@@ -16,8 +16,13 @@ export const Form = styled.form`
 
 	h1 {
 		margin-bottom: 68px;
-
+		span {
+			font-size: 32px;
+		}
 		@media (max-width: 1440px) {
+			span {
+				font-size: 28px;
+			}
 			font-size: 28px;
 			margin-bottom: 48px;
 		}
@@ -38,6 +43,7 @@ export const Form = styled.form`
 		}
 		span {
 			color: ${({ theme: { colors } }) => colors.secondary.primary};
+			font-size: 18px;
 			font-weight: 600;
 		}
 	}
