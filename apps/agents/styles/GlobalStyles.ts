@@ -17,6 +17,10 @@ export const GlobalStyles = createGlobalStyle`
 			color: ${({ theme }) => theme.colors.text.primary};
 		}
 
+		p, span, a {
+			font-size: 14px;
+		}
+
 		ul {
 			list-style: none;
 		}
