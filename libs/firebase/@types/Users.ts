@@ -1,11 +1,16 @@
+import firebase from 'firebase'
+
 export type User = {
 	id: string
-	displayName: string
+	display_name: string
 	teams: string[]
-	phoneNumber: string
-	role: string
-	createdAt: {
-		seconds: number
-		nanoseconds: number
-	}
+	phone_number: string
+	roles: string[]
+	created_at: firebase.firestore.FieldValue
+}
+
+export type UserCreateData = {
+	display_name: string
+	phone_number: string
+	email: string
 }
