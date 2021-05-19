@@ -1,4 +1,4 @@
-import { auth, Users, Teams } from '@welcome-connect/firebase'
+import { auth, firebase, Users, Teams } from '@welcome-connect/firebase'
 import { useRouter } from 'next/dist/client/router'
 import { useContext, useEffect } from 'react'
 import { UserSignupData } from '../@types/forms'
@@ -9,29 +9,36 @@ export const useAuth = () => {
 	const { state, dispatch } = useContext(AuthContext)
 	const router = useRouter()
 
-	async function signin(email: string, password: string) {
+	const signin = async (email: string, password: string) => {
 		dispatch({ type: AuthActionTypes.FetchReq })
 		try {
-			await auth.signInWithEmailAndPassword(email, password)
-			router.push('/dispatch')
+			const { user: userAuth } = await auth.signInWithEmailAndPassword(email, password)
+			if (userAuth) {
+				const user = await Users.findOne(userAuth.uid)
+				if (user && user?.teams.length > 0) {
+					router.push(`/dispatch/${user.teams[0].id}`)
+				} else {
+					router.push(`/dispatch`)
+				}
+			}
 		} catch (error) {
 			console.error('Error signing in: ', error.message)
 			dispatch({ type: AuthActionTypes.FetchFail, error: error.message })
 		}
 	}
 
-	async function signout() {
+	const signout = async () => {
 		try {
 			await auth.signOut()
-			dispatch({ type: AuthActionTypes.SignOut })
 			router.push('/')
+			dispatch({ type: AuthActionTypes.SignOut })
 		} catch (error) {
 			console.error('Error signing out: ', error.message)
 			dispatch({ type: AuthActionTypes.FetchFail, error: error.message })
 		}
 	}
 
-	async function signup({ email, password, display_name, phone_number }: UserSignupData) {
+	const signup = async ({ email, password, display_name, phone_number }: UserSignupData) => {
 		dispatch({ type: AuthActionTypes.FetchReq })
 
 		try {
@@ -47,7 +54,12 @@ export const useAuth = () => {
 		}
 	}
 
-	const handleUser = async (userAuth: firebase.default.User | null) => {
+	const setTeam = async (teamId: string) => {
+		const team = await Teams.findOne(teamId)
+		dispatch({ type: AuthActionTypes.SetTeam, userTeam: team })
+	}
+
+	const handleUser = async (userAuth: firebase.User | null) => {
 		dispatch({ type: AuthActionTypes.FetchReq })
 		if (!userAuth) {
 			dispatch({ type: AuthActionTypes.isNotLoggedIn })
@@ -62,8 +74,8 @@ export const useAuth = () => {
 		const userDoc = await Users.findOne(userAuth.uid)
 		if (userDoc) {
 			if (userDoc.teams.length > 0) {
-				const teamId = userDoc.teams[0]
-				const userTeam = await Teams.findOne(teamId)
+				const team = userDoc.teams[0]
+				const userTeam = await Teams.findOne(team.id)
 				dispatch({ type: AuthActionTypes.SetUserDocs, userDoc, userAuth, userTeam })
 			} else {
 				dispatch({ type: AuthActionTypes.SetUserDocs, userDoc, userAuth, userTeam: null })
@@ -74,7 +86,7 @@ export const useAuth = () => {
 	useEffect(() => {
 		const unsubscribeFromAuth = auth.onAuthStateChanged(handleUser)
 		return () => unsubscribeFromAuth()
-	}, [])
+	}, [router.pathname])
 
-	return { ...state, signin, signout, signup }
+	return { ...state, signin, signout, signup, setTeam }
 }
