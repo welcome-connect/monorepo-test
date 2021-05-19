@@ -1,5 +1,10 @@
 import { GeoPoint, Timestamp } from '@firebase/firestore-types'
 
+export type PartialTeam = {
+	id: string
+	name: string
+}
+
 export type Team = {
 	id: string
 	name: string

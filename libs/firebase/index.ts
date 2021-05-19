@@ -15,4 +15,4 @@ if (!firebase.apps.length) {
 const auth = firebase.auth()
 const functions = firebase.functions()
 
-export { db, auth, functions, Users, Teams }
+export { db, auth, functions, Users, Teams, firebase }
