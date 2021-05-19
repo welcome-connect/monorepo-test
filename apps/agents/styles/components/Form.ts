@@ -43,7 +43,7 @@ export const Form = styled.form`
 		}
 		span {
 			color: ${({ theme: { colors } }) => colors.secondary.primary};
-			font-size: 18px;
+			font-size: 14px;
 			font-weight: 600;
 		}
 	}
