@@ -1,4 +1,4 @@
-export const DispatchIcon = ({ fill = '#00D084' }) => {
+export const DispatchIcon = ({ fill = 'white' }) => {
 	return (
 		<svg
 			width="30"
