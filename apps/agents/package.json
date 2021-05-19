@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"@welcome-connect/firebase": "*",
+		"date-fns": "^2.21.3",
 		"dotenv": "^9.0.2",
 		"next": "10.2.0",
 		"next-transpile-modules": "^7.0.0",
