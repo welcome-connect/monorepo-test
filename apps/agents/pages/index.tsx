@@ -6,9 +6,10 @@ import { Logo } from '../icons/Logo'
 
 export default function Home() {
 	const router = useRouter()
-	const { userAuth } = useAuth()
+	const { userAuth, userTeam } = useAuth()
 
-	if (userAuth) router.push('/dispatch')
+	if (userAuth && userTeam) router.push(`/dispatch/${userTeam?.id}`)
+	if (userAuth && !userTeam) router.push(`/dispatch/`)
 
 	return (
 		<PageLayout>
