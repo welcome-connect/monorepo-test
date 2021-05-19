@@ -11,7 +11,7 @@ type SideNavIconProps = {
 export function SideNavIcon({ label, icon: Icon, href }: SideNavIconProps) {
 	const [showLabel, setShowLabel] = useState(false)
 	const router = useRouter()
-	const isActive = router.pathname.includes(href)
+	const isActive = router.pathname.split('/').includes(href.split('/')[0])
 
 	return (
 		<IconWrapper
@@ -31,7 +31,6 @@ const IconWrapper = styled.div`
 	display: grid;
 	place-items: center;
 	cursor: pointer;
-
 	position: relative;
 
 	&:hover,
@@ -43,6 +42,15 @@ const IconWrapper = styled.div`
 		isActive &&
 		css`
 			background-color: ${({ theme: { colors } }) => colors.secondary[700]};
+			&::after {
+				content: '';
+				height: 100%;
+				width: 2px;
+				position: absolute;
+				left: 0;
+				top: 0;
+				background-color: ${({ theme: { colors } }) => colors.main.primary};
+			}
 		`}
 `
 

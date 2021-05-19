@@ -1,3 +1,4 @@
+import { useRouter } from 'next/dist/client/router'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
@@ -26,6 +27,7 @@ const SubSideNavContainer = styled.aside`
 const Title = styled.div`
 	p {
 		color: ${({ theme: { colors } }) => colors.text.white};
+		font-weight: 600;
 	}
 	background-color: ${({ theme: { colors } }) => colors.secondary.primary};
 	padding: 1rem;
@@ -34,12 +36,4 @@ const Title = styled.div`
 `
 const Options = styled.div`
 	background-color: ${({ theme: { colors } }) => colors.secondary[700]};
-	p {
-		padding: 0.5rem 2rem 0.5rem 1rem;
-		color: ${({ theme: { colors } }) => colors.text.white};
-		cursor: pointer;
-		&:hover {
-			background-color: ${({ theme: { colors } }) => colors.text.primary};
-		}
-	}
 `

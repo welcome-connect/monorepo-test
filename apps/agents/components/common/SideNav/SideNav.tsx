@@ -1,21 +1,29 @@
 import styled from 'styled-components'
+import { useAuth } from '../../../hooks/useAuth'
 import { DispatchIcon, SettingsIcon, ShowingsIcon, UserAvatarIcon } from '../../../icons'
 import { SideNavIcon } from '../SideNavIcon'
+import { UserAvatar } from '../UserAvatar'
 
 export function SideNav() {
+	const { userTeam } = useAuth()
+
 	return (
 		<SideNavContainer>
 			<IconsContainer>
-				<SideNavIcon label="Dispatch" icon={DispatchIcon} href="dispatch" />
+				<SideNavIcon
+					label="Dispatch"
+					icon={DispatchIcon}
+					href={
+						userTeam
+							? `dispatch/${userTeam?.name.replaceAll(' ', '-').toLowerCase()}`
+							: 'dispatch'
+					}
+				/>
 				<SideNavIcon label="Showings" icon={ShowingsIcon} href="showings" />
 			</IconsContainer>
 			<UserOptions>
 				<SideNavIcon label="Settings" icon={SettingsIcon} href="settings" />
-				<AvatarWrapper>
-					<Avatar>
-						<UserAvatarIcon />
-					</Avatar>
-				</AvatarWrapper>
+				<UserAvatar />
 			</UserOptions>
 		</SideNavContainer>
 	)
@@ -41,30 +49,4 @@ const IconsContainer = styled.nav`
 const UserOptions = styled.nav`
 	display: grid;
 	place-items: center;
-`
-const Avatar = styled.div`
-	width: 44px;
-	height: 44px;
-	background-color: ${({ theme: { colors } }) => colors.bg.primary};
-	display: grid;
-	place-content: center;
-	border-radius: 100%;
-
-	svg {
-		width: 26px;
-		height: auto;
-	}
-`
-
-const AvatarWrapper = styled.div`
-	width: 64px;
-	height: 64px;
-	display: grid;
-	place-items: center;
-	cursor: pointer;
-
-	&:hover,
-	&:focus {
-		background-color: ${({ theme: { colors } }) => colors.secondary[700]};
-	}
 `
