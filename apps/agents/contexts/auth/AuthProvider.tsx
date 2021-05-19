@@ -1,4 +1,4 @@
-import { createContext, useReducer, ReactNode, Dispatch } from 'react'
+import { createContext, useReducer, ReactNode, Dispatch, useMemo } from 'react'
 import { initialState, authReducer, AuthState, AuthActions } from './state'
 
 interface AuthContextValues {
