@@ -8,23 +8,36 @@ import { useAuth } from '../../hooks/useAuth'
 import { Button, PageContainer } from '../../styles/components'
 import { format } from 'date-fns'
 import { LeftCircleArrow, RightCircleArrow } from '../../icons'
+import { useTeam } from '../../hooks/useTeam'
 
 export default function DispatchPage() {
 	const [isLoading, setIsLoading] = useState(true)
-	const { setTeam, userDoc, userTeam } = useAuth()
+
 	const router = useRouter()
+	const { userDoc } = useAuth()
+	const { team: userTeam, setTeam, initialRender } = useTeam()
 
 	useEffect(() => {
-		if (userDoc) setIsLoading(false)
-	}, [userDoc])
+		if (userDoc && userTeam) setIsLoading(false)
+	}, [userDoc, userTeam])
 
 	async function handleOnTeamSelect(e: ChangeEvent<HTMLSelectElement>) {
 		await setTeam(e.target.value)
 	}
 
 	useEffect(() => {
-		router.push(`/dispatch/${userTeam?.name.replaceAll(' ', '-').toLowerCase()}`)
+		if (userTeam) {
+			router.push(`/dispatch/${userTeam.name.replaceAll(' ', '-').toLowerCase()}`)
+		}
 	}, [userTeam])
+
+	if (isLoading && initialRender) {
+		return (
+			<Loading>
+				<p>Loading...</p>
+			</Loading>
+		)
+	}
 
 	return (
 		<Layout hasSubSideBar={false}>
@@ -35,7 +48,10 @@ export default function DispatchPage() {
 					<Select onChange={handleOnTeamSelect}>
 						{userDoc?.teams.map(team => {
 							return (
-								<Option value={team.id} key={team.id}>
+								<Option
+									value={team.id}
+									key={team.id}
+									selected={team.id === userTeam?.id}>
 									{team.name}
 								</Option>
 							)
@@ -50,7 +66,7 @@ export default function DispatchPage() {
 				<MButton isSecondary>Add Showing</MButton>
 			</TopNav>
 			<SideNav />
-			<PageContainer>{isLoading ? <h2>...Loading</h2> : null}</PageContainer>
+			<PageContainer></PageContainer>
 		</Layout>
 	)
 }
@@ -81,4 +97,11 @@ const DateContainer = styled.div`
 	p {
 		margin: 0 2rem;
 	}
+`
+
+const Loading = styled.main`
+	display: grid;
+	place-content: center;
+	width: 100vw;
+	height: 100vh;
 `
