@@ -6,14 +6,12 @@ export enum AuthActionTypes {
 	SignIn = 'SIGN_IN_SUCCESS',
 	SignOut = 'SIGNOUT_SUCCESS',
 	SetUserDocs = 'SET_USER_DOCS',
-	SetTeam = 'SET_TEAM',
 	isNotLoggedIn = 'IS_NOT_LOGGED_IN'
 }
 
 export type AuthState = {
 	userAuth: firebase.default.User | null
 	userDoc: User | null
-	userTeam: Team | null | undefined
 	isLoggedIn: boolean
 	isLoading: boolean
 	error: string | null
@@ -22,7 +20,6 @@ export type AuthState = {
 export const initialState: AuthState = {
 	userAuth: null,
 	userDoc: null,
-	userTeam: null,
 	isLoggedIn: false,
 	isLoading: false,
 	error: null
@@ -37,9 +34,7 @@ export type AuthActions =
 			type: 'SET_USER_DOCS'
 			userDoc: User | null
 			userAuth: firebase.default.User | null
-			userTeam: Team | null | undefined
 	  }
-	| { type: 'SET_TEAM'; userTeam: Team | null | undefined }
 	| { type: 'IS_NOT_LOGGED_IN' }
 
 export const authReducer = (state: AuthState, action: AuthActions): AuthState => {
@@ -55,26 +50,18 @@ export const authReducer = (state: AuthState, action: AuthActions): AuthState =>
 				isLoggedIn: false,
 				userAuth: null,
 				userDoc: null,
-				userTeam: null
 			}
 		case AuthActionTypes.SetUserDocs:
 			return {
 				...state,
 				userDoc: action.userDoc,
 				userAuth: action.userAuth,
-				userTeam: action.userTeam
-			}
-		case AuthActionTypes.SetTeam:
-			return {
-				...state,
-				userTeam: action.userTeam
 			}
 		case AuthActionTypes.isNotLoggedIn:
 			return {
 				...state,
 				userAuth: null,
 				userDoc: null,
-				userTeam: null,
 				isLoading: false,
 				error: null
 			}
