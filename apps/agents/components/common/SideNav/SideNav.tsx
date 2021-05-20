@@ -1,11 +1,13 @@
 import styled from 'styled-components'
 import { useAuth } from '../../../hooks/useAuth'
+import { useTeam } from '../../../hooks/useTeam'
 import { DispatchIcon, SettingsIcon, ShowingsIcon, UserAvatarIcon } from '../../../icons'
 import { SideNavIcon } from '../SideNavIcon'
 import { UserAvatar } from '../UserAvatar'
 
 export function SideNav() {
-	const { userTeam } = useAuth()
+	const { team } = useTeam()
+	const { userDoc } = useAuth()
 
 	return (
 		<SideNavContainer>
@@ -14,8 +16,12 @@ export function SideNav() {
 					label="Dispatch"
 					icon={DispatchIcon}
 					href={
-						userTeam
-							? `dispatch/${userTeam?.name.replaceAll(' ', '-').toLowerCase()}`
+						team
+							? `dispatch/${team?.name.replaceAll(' ', '-').toLowerCase()}`
+							: userDoc && userDoc.teams.length > 0
+							? `dispatch/${userDoc.teams[0]?.name
+									.replaceAll(' ', '-')
+									.toLowerCase()}`
 							: 'dispatch'
 					}
 				/>
