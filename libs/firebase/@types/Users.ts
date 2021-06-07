@@ -1,10 +1,10 @@
 import firebase from 'firebase'
-import { PartialTeam } from './Teams'
+import { TeamMap } from './Teams'
 
 export type User = {
 	id: string
 	display_name: string
-	teams: PartialTeam[]
+	teams: TeamMap
 	phone_number: string
 	roles: string[]
 	created_at: firebase.firestore.FieldValue

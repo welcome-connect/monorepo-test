@@ -21,7 +21,7 @@ async function createDoc(userData: UserCreateData, userAuth: firebase.User) {
 			await userRef.set({
 				id: userAuth.uid,
 				created_at,
-				teams: [],
+				teams: {},
 				roles: [],
 				...userData
 			})
@@ -34,4 +34,16 @@ async function createDoc(userData: UserCreateData, userAuth: firebase.User) {
 	return findOne(userAuth.uid)
 }
 
-export default { findOne, createDoc }
+async function getAgentsByTeam(id: string, name: string) {
+	const agentsRef = db.users
+		.where(`teams.${id}`, '==', name)
+		.where('roles', 'array-contains', 'agent')
+
+	const agents = (await agentsRef.get()).docs.map(doc => {
+		return doc.data()
+	})
+
+	return agents
+}
+
+export default { findOne, createDoc, getAgentsByTeam }

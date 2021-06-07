@@ -49,13 +49,15 @@ export const authReducer = (state: AuthState, action: AuthActions): AuthState =>
 				isLoading: false,
 				isLoggedIn: false,
 				userAuth: null,
-				userDoc: null,
+				userDoc: null
 			}
 		case AuthActionTypes.SetUserDocs:
 			return {
 				...state,
 				userDoc: action.userDoc,
 				userAuth: action.userAuth,
+				isLoading: false,
+				error: null
 			}
 		case AuthActionTypes.isNotLoggedIn:
 			return {

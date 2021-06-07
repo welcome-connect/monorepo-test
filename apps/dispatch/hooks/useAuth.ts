@@ -15,8 +15,12 @@ export const useAuth = () => {
 			const { user: userAuth } = await auth.signInWithEmailAndPassword(email, password)
 			if (userAuth) {
 				const user = await Users.findOne(userAuth.uid)
-				if (user && user?.teams.length > 0) {
-					router.push(`/dispatch/${user.teams[0].id}`)
+				if (user && Object.entries(user.teams).length > 0) {
+					router.push(
+						`/dispatch/${Object.values(user.teams)[0]
+							.replaceAll(' ', '-')
+							.toLowerCase()}`
+					)
 				} else {
 					router.push(`/dispatch`)
 				}
@@ -74,7 +78,7 @@ export const useAuth = () => {
 
 		const userDoc = await Users.findOne(userAuth.uid)
 		if (userDoc) {
-			if (userDoc.teams.length > 0) {
+			if (Object.entries(userDoc.teams).length > 0) {
 				dispatch({ type: AuthActionTypes.SetUserDocs, userDoc, userAuth })
 			} else {
 				dispatch({ type: AuthActionTypes.SetUserDocs, userDoc, userAuth })

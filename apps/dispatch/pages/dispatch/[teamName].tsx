@@ -9,6 +9,7 @@ import { Button, PageContainer } from '../../styles/components'
 import { format } from 'date-fns'
 import { LeftCircleArrow, RightCircleArrow } from '../../icons'
 import { useTeam } from '../../hooks/useTeam'
+import { Schedule } from '../../components/scheduler/Schedule'
 
 export default function DispatchPage() {
 	const [isLoading, setIsLoading] = useState(true)
@@ -46,16 +47,17 @@ export default function DispatchPage() {
 					<PageTitle>Dispatch </PageTitle>
 					<span> / </span>
 					<Select onChange={handleOnTeamSelect}>
-						{userDoc?.teams.map(team => {
-							return (
-								<Option
-									value={team.id}
-									key={team.id}
-									selected={team.id === userTeam?.id}>
-									{team.name}
-								</Option>
-							)
-						})}
+						{userDoc &&
+							Object.entries(userDoc.teams).map(([teamId, teamName]) => {
+								return (
+									<Option
+										value={teamId}
+										key={teamId}
+										selected={teamId === userTeam?.id}>
+										{teamName}
+									</Option>
+								)
+							})}
 					</Select>
 				</div>
 				<DateContainer>
@@ -66,7 +68,9 @@ export default function DispatchPage() {
 				<MButton isSecondary>Add Showing</MButton>
 			</TopNav>
 			<SideNav />
-			<PageContainer></PageContainer>
+			<PageContainer>
+				<Schedule />
+			</PageContainer>
 		</Layout>
 	)
 }

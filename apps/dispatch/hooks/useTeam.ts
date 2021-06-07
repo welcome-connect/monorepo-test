@@ -12,10 +12,11 @@ export function useTeam() {
 
 	useEffect(() => {
 		if (userDoc && state.initialRender) {
-			const team = userDoc.teams.find(
-				team => team.name.replaceAll(' ', '-').toLowerCase() === router.query.teamName
+			const team = Object.entries(userDoc.teams).find(
+				([_, teamName]) =>
+					teamName.replaceAll(' ', '-').toLowerCase() === router.query.teamName
 			)
-			if (team) setTeam(team.id)
+			if (team) setTeam(team[0])
 		}
 	}, [userDoc, state.initialRender])
 

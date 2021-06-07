@@ -52,19 +52,6 @@ const LayoutContainer = styled.div`
 			`
 		}
 	}}
-
-	@media only screen and (max-width: ${({ theme: { media } }) => media.tablet_portrait}) {
-		grid-template-rows: 50px auto 50px;
-		grid-template-columns: auto;
-		grid-template-areas:
-			'top-nav'
-			'.'
-			'side-nav';
-
-		&.menu-open {
-			grid-template-columns: auto;
-		}
-	}
 `
 
 const LogoContainer = styled.div`

@@ -13,7 +13,7 @@ export function useMemoCompare<T>(next: Next<T>, compare: Compare<T>): T | undef
 		if (!isEqual) {
 			previousRef.current = next
 		}
-	})
+	}, [isEqual, next])
 
 	return isEqual ? previous : next
 }
