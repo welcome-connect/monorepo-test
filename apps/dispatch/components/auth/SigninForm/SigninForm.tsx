@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { useAuth } from '../../../hooks/useAuth'
-import { Button, FieldSet, Form, Input, Label } from '../../../styles/components'
+import { useAuth } from '@app/hooks/useAuth'
+import { Button, FieldSet, Form, Input, Label } from '@app/styles/components'
 
 type UserSignInData = {
 	email: string

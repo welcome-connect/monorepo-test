@@ -29,6 +29,7 @@ declare module 'styled-components' {
 			}
 			fg: {
 				primary: string
+				primary_hover: string
 			}
 			text: {
 				primary: string
@@ -39,6 +40,7 @@ declare module 'styled-components' {
 			}
 			error: {
 				alert: string
+				alert_hover: string
 				warning: string
 			}
 		}
@@ -82,7 +84,8 @@ export const theme: DefaultTheme = {
 			onWhite: '#F2F5F9'
 		},
 		fg: {
-			primary: '#FFFFFF'
+			primary: '#FFFFFF',
+			primary_hover: '#E5EAF0'
 		},
 		text: {
 			primary: '#242935',
@@ -92,8 +95,9 @@ export const theme: DefaultTheme = {
 			input: '#CACCCF'
 		},
 		error: {
-			alert: '#F56565',
-			warning: '#F5C61F'
+			alert: '#FB4E4E',
+			alert_hover: '#F56565',
+			warning: '#FCC812'
 		}
 	},
 	media: {

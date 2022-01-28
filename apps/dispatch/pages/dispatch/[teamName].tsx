@@ -1,15 +1,15 @@
 import styled from 'styled-components'
-import { useRouter } from 'next/dist/client/router'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { Layout } from '../../components/common/Layout'
-import { SideNav } from '../../components/common/SideNav'
-import { TopNav } from '../../components/common/TopNav'
-import { useAuth } from '../../hooks/useAuth'
-import { Button, PageContainer } from '../../styles/components'
+import { useRouter } from 'next/dist/client/router'
 import { format } from 'date-fns'
-import { LeftCircleArrow, RightCircleArrow } from '../../icons'
-import { useTeam } from '../../hooks/useTeam'
-import { Schedule } from '../../components/scheduler/Schedule'
+
+import { useTeam } from '@app/hooks/useTeam'
+import { useAuth } from '@app/hooks/useAuth'
+
+import { Layout, SideNav, TopNav } from '@app/components/common'
+import { Button, PageContainer } from '@app/styles/components'
+import { LeftCircleArrow, RightCircleArrow } from '@app/icons/index'
+import { Schedule } from '@app/components/scheduler/Schedule'
 
 export default function DispatchPage() {
 	const [isLoading, setIsLoading] = useState(true)

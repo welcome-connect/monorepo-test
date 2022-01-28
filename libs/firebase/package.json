@@ -3,8 +3,8 @@
 	"version": "1.0.2",
 	"main": "dist/index.js",
 	"scripts": {
-		"build": "tsc",
-		"build:watch": "tsc --watch"
+		"dev": "tsc --watch",
+		"build": "tsc"
 	},
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com"

@@ -1,9 +1,12 @@
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from 'styled-components'
-import { GlobalStyles, theme } from '../styles'
-import { AuthProvider } from '../contexts/auth/AuthProvider'
-import { TeamProvider } from '../contexts/team/TeamProvider'
+import { AuthProvider } from '@app/contexts/auth/AuthProvider'
+import { TeamProvider } from '@app/contexts/team/TeamProvider'
+
+import { StyledToastContainer } from '@app/styles/components/ToastContainer'
+import { GlobalStyles, theme } from '@app/styles/index'
+import 'react-toastify/dist/ReactToastify.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -16,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 				<AuthProvider>
 					<ThemeProvider theme={theme}>
 						<GlobalStyles />
+						<StyledToastContainer position="bottom-center" newestOnTop />
 						<Component {...pageProps} />
 					</ThemeProvider>
 				</AuthProvider>

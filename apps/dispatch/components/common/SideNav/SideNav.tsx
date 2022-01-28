@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-import { useAuth } from '../../../hooks/useAuth'
-import { useTeam } from '../../../hooks/useTeam'
-import { DispatchIcon, SettingsIcon, ShowingsIcon, UserAvatarIcon } from '../../../icons'
-import { SideNavIcon } from '../SideNavIcon'
-import { UserAvatar } from '../UserAvatar'
+import { useAuth } from '@app/hooks/useAuth'
+import { useTeam } from '@app/hooks/useTeam'
+import { DispatchIcon, SettingsIcon, ShowingsIcon } from '@app/icons/index'
+import { SideNavIcon, UserAvatar } from '@app/components/common'
 
 export function SideNav() {
 	const { team } = useTeam()
@@ -18,8 +17,8 @@ export function SideNav() {
 					href={
 						team
 							? `dispatch/${team?.name.replaceAll(' ', '-').toLowerCase()}`
-							: userDoc && userDoc.teams.length > 0
-							? `dispatch/${userDoc.teams[0]?.name
+							: userDoc && Object.keys(userDoc.teams).length > 0
+							? `dispatch/${Object.values(userDoc.teams)[0]
 									.replaceAll(' ', '-')
 									.toLowerCase()}`
 							: 'dispatch'
@@ -28,7 +27,7 @@ export function SideNav() {
 				<SideNavIcon label="Showings" icon={ShowingsIcon} href="showings" />
 			</IconsContainer>
 			<UserOptions>
-				<SideNavIcon label="Settings" icon={SettingsIcon} href="settings" />
+				<SideNavIcon label="Settings" icon={SettingsIcon} href="settings/account" />
 				<UserAvatar />
 			</UserOptions>
 		</SideNavContainer>
@@ -50,7 +49,7 @@ const SideNavContainer = styled.aside`
 `
 
 const IconsContainer = styled.nav`
-	margin-top: 54px;
+	margin-top: 1rem;
 `
 const UserOptions = styled.nav`
 	display: grid;

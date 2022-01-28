@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { NavigationContext } from '../contexts/navigation/NavigationProvider'
-import { NavActionTypes } from '../contexts/navigation/state'
+import { NavigationContext } from '@app/contexts/navigation/NavigationProvider'
+import { NavActionTypes } from '@app/contexts/navigation/state'
 
 export function useNavigation() {
 	const { state, dispatch } = useContext(NavigationContext)

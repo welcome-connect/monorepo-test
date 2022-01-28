@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import { QueryDocumentSnapshot } from '@firebase/firestore-types'
 import { config } from '../config'
 

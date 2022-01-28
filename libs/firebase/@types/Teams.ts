@@ -1,12 +1,18 @@
-import { GeoPoint, Timestamp } from '@firebase/firestore-types'
+import { GeoPoint, FieldValue } from '@firebase/firestore-types'
 
-export type TeamMap = { [name: string]: string }
+export type TeamMap = { [id: string]: string }
+export type Coordinate = { lat: number; lng: number }
 
 export type Team = {
 	id: string
 	name: string
-	agent_count: number
-	dispatcher_count: number
+	agentCount: number
+	dispatcherCount: number
 	coords: GeoPoint
-	created_at: Timestamp
+	createdAt: FieldValue
+}
+
+export type TeamCreateData = {
+	name: string
+	coords: Coordinate
 }

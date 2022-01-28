@@ -12,12 +12,12 @@ export const GlobalStyles = createGlobalStyle`
 	body {
 		font-family: 'Roboto';
 		
-		h1, h2, h3, p, span, a, label {
+		h1, h2, h3, h4, p, span, a, label, strong {
 			font-family: 'Poppins';
 			color: ${({ theme }) => theme.colors.text.primary};
 		}
 
-		p, span, a {
+		p, span, a, strong {
 			font-size: 14px;
 		}
 

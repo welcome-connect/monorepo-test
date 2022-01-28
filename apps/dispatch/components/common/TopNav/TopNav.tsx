@@ -15,4 +15,5 @@ const TopNavContainer = styled.header`
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 2rem;
+	border-bottom: 1px solid ${({ theme }) => theme.colors.secondary[300]};
 `

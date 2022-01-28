@@ -1,7 +1,5 @@
-import { createContext, useReducer, ReactNode, Dispatch, useEffect } from 'react'
-import { useAuth } from '../../hooks/useAuth'
-import { useTeam } from '../../hooks/useTeam'
-import { initialState, teamReducer, TeamState, TeamActions, TeamActionTypes } from './state'
+import { createContext, useReducer, ReactNode, Dispatch } from 'react'
+import { initialState, teamReducer, TeamState, TeamActions } from './state'
 
 interface TeamContextValues {
 	state: TeamState
@@ -16,9 +14,5 @@ export const TeamContext = createContext<TeamContextValues>({
 export function TeamProvider({ children }: { children: ReactNode }) {
 	const [state, dispatch] = useReducer(teamReducer, initialState)
 
-	return (
-		<TeamContext.Provider value={{ state, dispatch }}>
-			{children}
-		</TeamContext.Provider>
-	)
+	return <TeamContext.Provider value={{ state, dispatch }}>{children}</TeamContext.Provider>
 }

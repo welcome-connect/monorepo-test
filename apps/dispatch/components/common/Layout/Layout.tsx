@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { ReactNode } from 'react'
-import { useNavigation } from '../../../hooks/useNavigation'
-import { LogoMark } from '../../../icons'
+import { useNavigation } from '@app/hooks/useNavigation'
+import { LogoMark } from '@app/icons/index'
 
 type LayoutProps = {
 	children: ReactNode

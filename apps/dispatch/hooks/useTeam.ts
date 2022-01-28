@@ -1,9 +1,10 @@
-import { Teams } from '@welcome-connect/firebase'
-import { useRouter } from 'next/dist/client/router'
 import { useContext, useEffect } from 'react'
-import { TeamActionTypes } from '../contexts/team/state'
-import { TeamContext } from '../contexts/team/TeamProvider'
-import { useAuth } from './useAuth'
+import { useRouter } from 'next/router'
+
+import { Teams } from '@welcome-connect/firebase'
+import { useAuth } from '@app/hooks/useAuth'
+import { TeamActionTypes } from '@app/contexts/team/state'
+import { TeamContext } from '@app/contexts/team/TeamProvider'
 
 export function useTeam() {
 	const { state, dispatch } = useContext(TeamContext)
@@ -18,11 +19,25 @@ export function useTeam() {
 			)
 			if (team) setTeam(team[0])
 		}
+
+		if (
+			userDoc &&
+			Object.values(userDoc.teams).length > 0 &&
+			!router.query.teamName &&
+			!state.team
+		) {
+			const teamId = Object.keys(userDoc.teams)[0]
+			setTeam(teamId)
+		}
 	}, [userDoc, state.initialRender])
 
-	const setTeam = async (teamId: string) => {
-		const team = await Teams.findOne(teamId)
-		dispatch({ type: TeamActionTypes.SetTeam, team })
+	const setTeam = async (teamId: string | null) => {
+		if (!teamId) {
+			dispatch({ type: TeamActionTypes.SetTeam, team: null })
+		} else {
+			const team = await Teams.getDocumentById(teamId)
+			dispatch({ type: TeamActionTypes.SetTeam, team })
+		}
 	}
 
 	return { ...state, setTeam }

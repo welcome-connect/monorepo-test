@@ -1,17 +1,22 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import { TeamMap } from './Teams'
 
 export type User = {
 	id: string
-	display_name: string
+	displayName: string
+	email: string
 	teams: TeamMap
-	phone_number: string
+	phoneNumber: string
 	roles: string[]
-	created_at: firebase.firestore.FieldValue
+	createdAt: firebase.firestore.FieldValue
 }
 
-export type UserCreateData = {
-	display_name: string
-	phone_number: string
+export type PartialUser = {
+	[Key in keyof User]?: User[Key]
+}
+
+export type UserProfile = {
+	displayName: string
+	phoneNumber: string
 	email: string
 }

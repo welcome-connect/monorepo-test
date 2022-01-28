@@ -1,8 +1,6 @@
-import { Layout } from '../components/common/Layout'
-import { SideNav } from '../components/common/SideNav'
-import { TopNav } from '../components/common/TopNav'
-import { useAuth } from '../hooks/useAuth'
-import { Button, PageContainer } from '../styles/components'
+import { Layout, SideNav, TopNav } from '@app/components/common'
+import { useAuth } from '@app/hooks/useAuth'
+import { Button, PageContainer } from '@app/styles/components'
 
 export default function ShowingsPage() {
 	const { signout } = useAuth()

@@ -1,18 +1,26 @@
 import styled from 'styled-components'
 import { useState } from 'react'
-import { useAuth } from '../../../hooks/useAuth'
-import { UserAvatarIcon } from '../../../icons'
+import { useAuth } from '@app/hooks/useAuth'
+import { useTeam } from '@app/hooks/useTeam'
+import { UserAvatarIcon } from '@app/icons/index'
 
 export function UserAvatar() {
 	const [showUserOptions, setShowUserOptions] = useState(false)
 	const { signout } = useAuth()
+	const { setTeam } = useTeam()
+
+	function handleLogout() {
+		setTeam(null)
+		signout()
+	}
+
 	return (
 		<AvatarWrapper
 			onMouseEnter={() => setShowUserOptions(true)}
 			onMouseLeave={() => setShowUserOptions(false)}>
 			{showUserOptions ? (
 				<UserOptions>
-					<UserOption onClick={signout}>Logout</UserOption>
+					<UserOption onClick={handleLogout}>Logout</UserOption>
 				</UserOptions>
 			) : null}
 			<Avatar>

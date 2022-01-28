@@ -1,47 +1,23 @@
-import { db, Users } from '@welcome-connect/firebase'
-import { User } from '@welcome-connect/firebase/@types'
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useFirebaseSub } from '../../../hooks/useFirestoreSub'
-import { useTeam } from '../../../hooks/useTeam'
-import { getColumnSpan } from '../../../utils/getColumnSpan'
-import { ShowingsRow } from '../ShowingsRow'
+import { useEffect, useState } from 'react'
 
-const TIMES = [
-	'09:00',
-	'09:30',
-	'10:00',
-	'10:30',
-	'11:00',
-	'11:30',
-	'12:00',
-	'12:30',
-	'13:00',
-	'13:30',
-	'14:00',
-	'14:30',
-	'15:00',
-	'15:30',
-	'16:00',
-	'16:30',
-	'17:00',
-	'17:30',
-	'18:00',
-	'18:30',
-	'19:00',
-	'19:30'
-]
+import { Users } from '@welcome-connect/firebase'
+import { Team, User } from '@welcome-connect/firebase/@types'
+
+import { useTeam } from '@app/hooks/useTeam'
+import { getColumnSpan } from '@app/utils/getColumnSpan'
+import { ShowingsRow } from '../ShowingsRow'
 
 export function Schedule() {
 	const [agents, setAgents] = useState<User[] | null | undefined>([])
 	const { team } = useTeam()
 
 	useEffect(() => {
-		if (team) fetchAgentsByTeam(team.id, team.name)
+		if (team) fetchAgentsByTeam(team)
 	}, [team])
 
-	async function fetchAgentsByTeam(id: string, name: string) {
-		const fetchedAgents = await Users.getAgentsByTeam(id, name)
+	async function fetchAgentsByTeam(team: Team) {
+		const fetchedAgents = await Users.getAgentsByTeamId(team)
 		setAgents(fetchedAgents)
 	}
 
@@ -57,7 +33,7 @@ export function Schedule() {
 							return (
 								<div className="agent-container" key={agent.id}>
 									<div className="avatar" />
-									<div className="agent-row">{agent.display_name}</div>
+									<div className="agent-row">{agent.displayName}</div>
 								</div>
 							)
 						})}
@@ -84,6 +60,31 @@ export function Schedule() {
 		</ScheduleContainer>
 	)
 }
+
+const TIMES = [
+	'09:00',
+	'09:30',
+	'10:00',
+	'10:30',
+	'11:00',
+	'11:30',
+	'12:00',
+	'12:30',
+	'13:00',
+	'13:30',
+	'14:00',
+	'14:30',
+	'15:00',
+	'15:30',
+	'16:00',
+	'16:30',
+	'17:00',
+	'17:30',
+	'18:00',
+	'18:30',
+	'19:00',
+	'19:30'
+]
 
 const ScheduleContainer = styled.main`
 	display: grid;
@@ -168,9 +169,5 @@ const TimeSlot = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* left: -100%; */
 	top: 0;
-	/* transform: translateY(-50%);  */
-
-	/* text-align: center; */
 `

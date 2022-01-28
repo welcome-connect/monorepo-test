@@ -1,9 +1,10 @@
 import { useRouter } from 'next/dist/client/router'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { UserSignupData } from '../../../@types/forms'
-import { useAuth } from '../../../hooks/useAuth'
-import { Button, FieldSet, Form, Input, Label } from '../../../styles/components'
+import { UserSignupData } from '@app/types/forms'
+import { Button, FieldSet, Form, Input, Label } from '@app/styles/components'
+import { useAuth } from '@app/hooks/useAuth'
+import { formatPhoneNumber } from '@app/utils/formatPhoneNumber'
 
 export function SignupForm() {
 	const { signup, isLoading } = useAuth()
@@ -15,7 +16,7 @@ export function SignupForm() {
 	} = useForm<UserSignupData>()
 
 	async function onSubmit(formValues: UserSignupData) {
-		await signup(formValues)
+		await signup({ ...formValues, phoneNumber: formatPhoneNumber(formValues.phoneNumber) })
 		router.push('/dispatch')
 	}
 
@@ -27,14 +28,14 @@ export function SignupForm() {
 				Sign up to <span>Welcome</span>
 			</h1>
 			<FieldSet>
-				<Label htmlFor="display_name">Full name</Label>
+				<Label htmlFor="displayName">Full name</Label>
 				<Input
 					type="text"
-					{...register('display_name', {
+					{...register('displayName', {
 						required: 'Your name is required'
 					})}
 					placeholder="enter your full name"
-					hasError={Boolean(errors.display_name?.message)}
+					hasError={Boolean(errors.displayName?.message)}
 				/>
 			</FieldSet>
 			<FieldSet>
@@ -53,14 +54,14 @@ export function SignupForm() {
 				/>
 			</FieldSet>
 			<FieldSet>
-				<Label htmlFor="phone_number">Phone number</Label>
+				<Label htmlFor="phoneNumber">Phone number</Label>
 				<Input
 					type="text"
-					{...register('phone_number', {
+					{...register('phoneNumber', {
 						required: 'Your phone number is required'
 					})}
 					placeholder="enter your phone number"
-					hasError={Boolean(errors.phone_number?.message)}
+					hasError={Boolean(errors.phoneNumber?.message)}
 				/>
 			</FieldSet>
 			<FieldSet>

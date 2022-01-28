@@ -1,9 +1,9 @@
-import { auth, firebase, Users, Teams } from '@welcome-connect/firebase'
+import { auth, firebase, Users } from '@welcome-connect/firebase'
 import { useRouter } from 'next/dist/client/router'
 import { useCallback, useContext, useEffect, useMemo } from 'react'
-import { UserSignupData } from '../@types/forms'
-import { AuthContext } from '../contexts/auth/AuthProvider'
-import { AuthActionTypes } from '../contexts/auth/state'
+import { UserSignupData } from '@app/types/forms'
+import { AuthContext } from '@app/contexts/auth/AuthProvider'
+import { AuthActionTypes } from '@app/contexts/auth/state'
 
 export const useAuth = () => {
 	const { state, dispatch } = useContext(AuthContext)
@@ -14,7 +14,7 @@ export const useAuth = () => {
 		try {
 			const { user: userAuth } = await auth.signInWithEmailAndPassword(email, password)
 			if (userAuth) {
-				const user = await Users.findOne(userAuth.uid)
+				const user = await Users.getDocumentById(userAuth.uid)
 				if (user && Object.entries(user.teams).length > 0) {
 					router.push(
 						`/dispatch/${Object.values(user.teams)[0]
@@ -43,7 +43,7 @@ export const useAuth = () => {
 	}, [])
 
 	const signup = useCallback(
-		async ({ email, password, display_name, phone_number }: UserSignupData) => {
+		async ({ email, password, displayName, phoneNumber }: UserSignupData) => {
 			dispatch({ type: AuthActionTypes.FetchReq })
 
 			try {
@@ -52,7 +52,7 @@ export const useAuth = () => {
 					password
 				)
 				if (userAuth) {
-					const userData = { email, display_name, phone_number }
+					const userData = { email, displayName, phoneNumber }
 					await Users.createDoc(userData, userAuth)
 					router.push('/dispatch')
 				}
@@ -63,6 +63,10 @@ export const useAuth = () => {
 		},
 		[]
 	)
+
+	const setUserDoc = useCallback(userDoc => {
+		dispatch({ type: AuthActionTypes.SetUserDoc, userDoc })
+	}, [])
 
 	const handleUser = useCallback(async (userAuth: firebase.User | null) => {
 		dispatch({ type: AuthActionTypes.FetchReq })
@@ -76,12 +80,12 @@ export const useAuth = () => {
 			}
 		}
 
-		const userDoc = await Users.findOne(userAuth.uid)
+		const userDoc = await Users.getDocumentById(userAuth.uid)
 		if (userDoc) {
 			if (Object.entries(userDoc.teams).length > 0) {
-				dispatch({ type: AuthActionTypes.SetUserDocs, userDoc, userAuth })
+				dispatch({ type: AuthActionTypes.SetUser, userDoc, userAuth })
 			} else {
-				dispatch({ type: AuthActionTypes.SetUserDocs, userDoc, userAuth })
+				dispatch({ type: AuthActionTypes.SetUser, userDoc, userAuth })
 			}
 		}
 	}, [])
@@ -95,5 +99,5 @@ export const useAuth = () => {
 		return { ...state }
 	}, [state])
 
-	return { ...memoizedState, signin, signout, signup }
+	return { ...memoizedState, signin, signout, signup, setUserDoc }
 }

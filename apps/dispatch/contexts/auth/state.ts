@@ -1,11 +1,12 @@
-import { Team, User } from '@welcome-connect/firebase/@types'
+import { User } from '@welcome-connect/firebase/@types'
 
 export enum AuthActionTypes {
 	FetchReq = 'FETCH_REQ',
 	FetchFail = 'FETCH_FAILED',
 	SignIn = 'SIGN_IN_SUCCESS',
 	SignOut = 'SIGNOUT_SUCCESS',
-	SetUserDocs = 'SET_USER_DOCS',
+	SetUser = 'SET_USER',
+	SetUserDoc = 'SET_USER_DOC',
 	isNotLoggedIn = 'IS_NOT_LOGGED_IN'
 }
 
@@ -30,8 +31,9 @@ export type AuthActions =
 	| { type: 'FETCH_FAILED'; error: string }
 	| { type: 'SIGN_IN_SUCCESS' }
 	| { type: 'SIGNOUT_SUCCESS' }
+	| { type: 'SET_USER_DOC'; userDoc: User | null }
 	| {
-			type: 'SET_USER_DOCS'
+			type: 'SET_USER'
 			userDoc: User | null
 			userAuth: firebase.default.User | null
 	  }
@@ -51,11 +53,18 @@ export const authReducer = (state: AuthState, action: AuthActions): AuthState =>
 				userAuth: null,
 				userDoc: null
 			}
-		case AuthActionTypes.SetUserDocs:
+		case AuthActionTypes.SetUser:
 			return {
 				...state,
 				userDoc: action.userDoc,
 				userAuth: action.userAuth,
+				isLoading: false,
+				error: null
+			}
+		case AuthActionTypes.SetUserDoc:
+			return {
+				...state,
+				userDoc: action.userDoc,
 				isLoading: false,
 				error: null
 			}

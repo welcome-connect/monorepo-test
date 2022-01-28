@@ -1,6 +1,11 @@
 export type UserSignupData = {
-	display_name: string
+	displayName: string
 	email: string
-	phone_number: string
+	phoneNumber: string
 	password: string
+}
+
+export type TeamCreateData = {
+	name: string
+	coords: { lat: number; lng: number }
 }

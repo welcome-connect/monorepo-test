@@ -1,14 +1,19 @@
-import { useRouter } from 'next/dist/client/router'
 import styled from 'styled-components'
-import { SignupForm } from '../components/auth/SignupForm'
-import { useAuth } from '../hooks/useAuth'
-import { Logo } from '../icons/Logo'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+
+import { useAuth } from '@app/hooks/useAuth'
+import { SignupForm } from '@app/components/auth/SignupForm'
+import { Logo } from '@app/icons/index'
 
 export default function Signup() {
 	const { userAuth } = useAuth()
 	const router = useRouter()
 
-	if (userAuth) router.push('/dispatch')
+	useEffect(() => {
+		if (userAuth) router.push('/dispatch')
+	}, [userAuth])
+
 	return (
 		<PageLayout>
 			<LeftColumn>

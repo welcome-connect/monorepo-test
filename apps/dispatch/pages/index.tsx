@@ -1,15 +1,17 @@
-import { Router, useRouter } from 'next/dist/client/router'
+import { useRouter } from 'next/dist/client/router'
 import styled from 'styled-components'
-import { SigninForm } from '../components/auth/SigninForm'
-import { useAuth } from '../hooks/useAuth'
-import { Logo } from '../icons/Logo'
+import { SigninForm } from '@app/components/auth/SigninForm'
+import { useAuth } from '@app/hooks/useAuth'
+import { Logo } from '@app/icons/index'
+import { useTeam } from '@app/hooks/useTeam'
 
 export default function Home() {
 	const router = useRouter()
-	const { userAuth, userTeam } = useAuth()
+	const { userAuth } = useAuth()
+	const { team } = useTeam()
 
-	if (userAuth && userTeam) router.push(`/dispatch/${userTeam?.id}`)
-	if (userAuth && !userTeam) router.push(`/dispatch/`)
+	if (userAuth && team) router.push(`/dispatch/${team?.id}`)
+	if (userAuth && !team) router.push(`/dispatch/`)
 
 	return (
 		<PageLayout>
